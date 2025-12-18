@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronDown, Play, Copy, Check, Server, Globe, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -95,6 +95,14 @@ export default function ApiDocumentation() {
   const [loading, setLoading] = useState<Record<string, boolean>>({});
   const [inputs, setInputs] = useState<Record<string, Record<string, string>>>({});
   const [copied, setCopied] = useState<string>('');
+  const [hostname, setHostname] = useState<string>('localhost:3000');
+
+  useEffect(() => {
+    // Set hostname on client side
+    if (typeof window !== 'undefined') {
+      setHostname(window.location.hostname);
+    }
+  }, []);
 
   const handleInputChange = (endpointPath: string, paramName: string, value: string) => {
     setInputs(prev => ({
@@ -201,13 +209,13 @@ export default function ApiDocumentation() {
               <Server className="h-4 w-4 text-muted-foreground" />
               <Badge variant="outline" className="text-xs">
                 <Globe className="h-3 w-3 mr-1" />
-                localhost:3000
+                {hostname}
               </Badge>
             </div>
           </div>
           
           <p className="mt-2 text-muted-foreground">
-            Interactive API documentation for DramaBox drama streaming service
+            Interactive API documentation for DramaBox drama streaming service (Indonesian version)
           </p>
         </div>
       </header>
@@ -361,7 +369,7 @@ export default function ApiDocumentation() {
         <div className="container mx-auto px-4 py-6">
           <div className="text-center text-sm text-muted-foreground">
             <p>DramaBox API Documentation • Built with Next.js & Shadcn UI</p>
-            <p className="mt-1">Interactive testing environment for drama streaming API</p>
+            <p className="mt-1">Interactive testing environment for drama streaming API (dramabox.web.id)</p>
           </div>
         </div>
       </footer>
